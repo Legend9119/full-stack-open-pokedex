@@ -3,8 +3,8 @@ import { render, screen } from '@testing-library/react'
 import axiosMock from 'axios'
 import { act } from 'react-dom/test-utils'
 import '@testing-library/jest-dom'
-import { BrowserRouter as Router } from 'react-router-dom'
 import App from '../src/App'
+import { BrowserRouter } from 'react-router-dom'
 
 jest.mock('axios')
 
@@ -18,7 +18,7 @@ describe('<App />', () => {
       }
     )
     await act(async () => {
-      render(<Router><App/></Router>)
+      render(<BrowserRouter><App/></BrowserRouter>)
     })
     expect(axiosMock.get).toHaveBeenCalledTimes(1)
     expect(axiosMock.get).toHaveBeenCalledWith('https://pokeapi.co/api/v2/pokemon/?limit=50')
@@ -27,7 +27,7 @@ describe('<App />', () => {
   it('shows error', async () => {
     axiosMock.get.mockRejectedValueOnce(new Error())
     await act(async () => {
-      render(<Router><App/></Router>)
+      render(<BrowserRouter><App/></BrowserRouter>)
     })
     expect(screen.getByTestId('error')).toBeVisible()
   })
