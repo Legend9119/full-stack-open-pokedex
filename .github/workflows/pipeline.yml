@@ -50,21 +50,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GHUB_TOKEN }}
           DEFAULT_BUMP: 'patch'
-      - name: Test Success
-        uses: rjstone/discord-webhook-notify@v1.0.4
+      - name: Discord Success Message
+        uses: discord-actions/message@v2
         if: success()
         with:
-              severity: info
-              text: A new version of Pokedex deployed
-              description: deployed latest to remote 
-              footer: Severity Informational
-              webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          message: "Successful deployment"
       - name: Test Failure
-        uses: rjstone/discord-webhook-notify@v1.0.4
+        uses: discord-actions/message@v2
         if: failure()
         with:
-              severity: error
-              text: Build failed
-              description: commit <> by <> broke the build :(
-              footer: Severity Error
-              webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          message: "Failed deployment"
